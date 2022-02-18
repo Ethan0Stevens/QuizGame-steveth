@@ -71,7 +71,8 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="@color/colorSecondary"
-            android:textSize="@dimen/main_size_txt_tv" />
+            android:textSize="@dimen/main_size_txt_tv"
+            android:focusedByDefault="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
