@@ -6,8 +6,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.util.Log;
-import android.util.TimeUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,10 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.steveth.quizgame.Controllers.QuestionManager;
 import com.steveth.quizgame.Models.Question;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.LockSupport;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -49,6 +44,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
+        //recupère les paramètres de l'activitée
         Bundle b = getIntent().getExtras();
         player1 = b.getString("player1");
         player2 = b.getString("player2");
@@ -76,6 +72,9 @@ public class GameActivity extends AppCompatActivity {
         StartGame();
     }
 
+    /**
+     * Lance un chrono de 4 seconde avant de lancer le jeu
+     */
     private void StartGame() {
         long duration = TimeUnit.SECONDS.toMillis(4);
 
@@ -94,6 +93,9 @@ public class GameActivity extends AppCompatActivity {
         }.start();
     }
 
+    /**
+     * Change de question automatiquement au bout d'une seconde
+     */
     private void ChangeQuestion() {
         Handler handler = new Handler();
         questionRunnable = new Runnable() {
@@ -112,29 +114,45 @@ public class GameActivity extends AppCompatActivity {
         handler.postDelayed(questionRunnable,100);
     }
 
+    /**
+     * Stock la question recupérée et l'affiche
+     */
     private void SetQuestion() {
         Button_p1.setEnabled(true);
         Button_p2.setEnabled(true);
+
         myQuestion = questionManager.getQuestion();
+
         Question_p1.setText(myQuestion.getQuestion());
         Question_p2.setText(myQuestion.getQuestion());
     }
 
+    /**
+     * Test si la réponse est correct ou non et, attribut les points en fonction de la réponse
+     * @param view le bouton appuyé
+     */
     @SuppressLint("SetTextI18n")
     public void TestAnswer(View view) {
         int answer = myQuestion.getAnswer();
         int scoreP1 = Integer.parseInt(Score_p1.getText().toString());
         int scoreP2 = Integer.parseInt(Score_p2.getText().toString());
+
+        final int SCORE_MAX = 99;
+        final int CORRECT = 1;
+
         Button_p1.setEnabled(false);
         Button_p2.setEnabled(false);
 
+        //Modifier le score du jouer dont le bouton a été préssé
         if (view.getId() == R.id.button_p1) {
-            if (answer == 1) {
-                if (scoreP1 < 99) {
+            // si la réponse est correct alors ajouter un point au score
+            // sinon enlever un point au joueur et ajouter un point a l'adversaire
+            if (answer == CORRECT) {
+                if (scoreP1 < SCORE_MAX) {
                     Score_p1.setText(Integer.toString(scoreP1 + 1));
                 }
             } else {
-                if (scoreP1 > -99) {
+                if (scoreP1 > -SCORE_MAX) {
                     Score_p1.setText(Integer.toString(scoreP1 - 1));
                     Score_p2.setText(Integer.toString(scoreP2 + 1));
                 }
@@ -142,12 +160,12 @@ public class GameActivity extends AppCompatActivity {
         }
 
         if (view.getId() == R.id.button_p2){
-            if (answer == 1) {
-                if (scoreP2 < 99) {
+            if (answer == CORRECT) {
+                if (scoreP2 < SCORE_MAX) {
                     Score_p2.setText(Integer.toString(scoreP2 + 1));
                 }
             } else {
-                if (scoreP2 > -99) {
+                if (scoreP2 > -SCORE_MAX) {
                     Score_p1.setText(Integer.toString(scoreP1 + 1));
                     Score_p2.setText(Integer.toString(scoreP2 - 1));
                 }
@@ -155,25 +173,43 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Arrete de jeu
+     */
     public void StopGame() {
+        //désactive les boutons
         Button_p1.setEnabled(false);
         Button_p2.setEnabled(false);
+        //Vide les champs de questions
         Question_p1.setText("");
         Question_p2.setText("");
+        //rend visible les boutons de menu et de restart
         Button_Menu.setVisibility(View.VISIBLE);
         Button_Restart.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Relancer le jeu
+     * @param view la vue
+     */
     public void restartGame(View view) {
         Intent intent = getIntent();
+        //il s'arrete lui meme
         finish();
+        //et se relance juste apres
         startActivity(intent);
+        //animation de changement d'activity
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
+    /**
+     * Retourne a la page d'accueil
+     * @param view la vue
+     */
     public void goToMainMenu(View view) {
         Intent returnIntent = new Intent(this, MainActivity.class);
         setResult(RESULT_OK,returnIntent);
+        //Termine l'activitée
         finish();
     }
 

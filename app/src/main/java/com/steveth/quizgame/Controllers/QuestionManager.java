@@ -9,10 +9,16 @@ public class QuestionManager {
 
     private ArrayList<Question> questionList = new ArrayList<>();
 
+    /**
+     * Constructeur de Question Manager
+     */
     public QuestionManager() {
         fillQuestionList();
     }
 
+    /**
+     * Rempli la liste de questions
+     */
     private void fillQuestionList() {
         questionList.add( new Question("oui ou non ?", 0));
         questionList.add( new Question("Spider Man a été créé par fortnite", 0));
@@ -25,10 +31,16 @@ public class QuestionManager {
         questionList.add( new Question("Barbie est blonde", 1));
     }
 
+    /**
+     * @return La liste des questions
+     */
     public ArrayList<Question> getQuestionList() {
         return questionList;
     }
 
+    /**
+     * @return La question qui correspond a l'index tiré
+     */
     public Question getQuestion() {
         int index = getRandomIndex();
         Question myQuestion = questionList.get(index);
@@ -38,10 +50,18 @@ public class QuestionManager {
         return myQuestion;
     }
 
+    /**
+     * Test si la liste est vide ou non
+     * @return un booléen
+     */
     public boolean isListEmpty() {
         return questionList.isEmpty();
     }
 
+    /**
+     * Tirer un index aléatoire dans ma liste de questions
+     * @return l'index tiré
+     */
     private int getRandomIndex() {
         Random random = new Random();
         return random.nextInt(questionList.size());

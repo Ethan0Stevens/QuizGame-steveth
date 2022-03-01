@@ -5,7 +5,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,12 +13,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         ED_Player_1.requestFocus();
 
+        // Rend le champs de saisi du deuxieme joueur visible
+        // si le premier joueur a rentré un nom
         ED_Player_1.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {}
         });
 
+        // Rend le bouton de lancement du jeu visible
+        // si le nom du deuxieme joueur a été rentré
         ED_Player_2.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -82,19 +86,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Création du menu
+     * @param menu menu
+     * @return un boolean
+     */
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
     }
 
+    /**
+     * Effectue le bon code en fonction de l'option selectionnée dans le menu
+     * @param item option selectionnée
+     * @return un boolean
+     */
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about:
                 LL_about.setVisibility(View.VISIBLE);
-
+                LL_about.setClickable(true);
                 break;
             case R.id.action_settings:
 
@@ -105,11 +119,28 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Ouvre la fenetre du jeu
+     * @param view la vue
+     */
     public void playGame(View view) {
         Intent gameActivity = new Intent(this, GameActivity.class);
-        gameActivity.putExtra("player1", ED_Player_1.getText().toString());
-        gameActivity.putExtra("player2", ED_Player_2.getText().toString());
+
+        //Parametres donnés a l'activité
+        gameActivity.putExtra("player1", Objects.requireNonNull(ED_Player_1.getText()).toString());
+        gameActivity.putExtra("player2", Objects.requireNonNull(ED_Player_2.getText()).toString());
+
         startActivity(gameActivity);
+
+        //Animation de changement d'activité
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
+
+    /**
+     * Ferme la popup about en cliquant a côté
+     * @param view la vue cliquée
+     */
+    public void CloseAbout(View view) {
+        LL_about.setVisibility(View.INVISIBLE);
     }
 }

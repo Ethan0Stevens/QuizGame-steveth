@@ -1,17 +1,27 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">QuizGame</string>
+
+    <!-- Main Activity -->
     <string name="new_player">New player</string>
-    <string name="score_p1">0</string>
-    <string name="score_p2">0</string>
     <string name="player_1">Player 1</string>
     <string name="player_2">Player 2</string>
     <string name="main_menu_about">about</string>
     <string name="main_menu_icon">icon</string>
     <string name="main_start_bt">Start</string>
-    <string name="questions">Questions</string>
     <string name="main_menu_settings">settings</string>
-    <string name="bt_txt_menu">Menu</string>
-    <string name="bt_txt_restart">restart</string>
     <string name="main_player1_ed" tools:ignore="Typos">player1</string>
     <string name="main_player2_ed">player2</string>
+    <string name="main_about_title">QuizGame</string>
+    <string name="main_about_author">Author</string>
+    <string name="main_about_author_name">Ethan Stevens</string>
+    <string name="main_about_version">Version</string>
+    <string name="main_about_version_txt">1.1</string>
+
+    <!-- Game Activity -->
+    <string name="score_p1">0</string>
+    <string name="score_p2">0</string>
+    <string name="questions">Questions</string>
+    <string name="bt_txt_menu">Menu</string>
+    <string name="bt_txt_restart">restart</string>
+
 </resources>
