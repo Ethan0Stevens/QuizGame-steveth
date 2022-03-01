@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.util.Log;
 import android.util.TimeUtils;
 import android.view.View;
@@ -39,6 +40,8 @@ public class GameActivity extends AppCompatActivity {
 
     QuestionManager questionManager = new QuestionManager();
     Question myQuestion;
+
+    Runnable questionRunnable = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,21 +89,35 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Button_p1.setEnabled(true);
-                Button_p2.setEnabled(true);
-                SetQuestion();
+                ChangeQuestion();
             }
         }.start();
     }
 
+    private void ChangeQuestion() {
+        Handler handler = new Handler();
+        questionRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                if(questionManager.isListEmpty()){
+                    StopGame();
+                    handler.removeCallbacks(this, 100);
+                }else{
+                    SetQuestion();
+                    handler.postDelayed(this,1000);
+                }
+            }
+        };
+        handler.postDelayed(questionRunnable,100);
+    }
+
     private void SetQuestion() {
-        if (questionManager.isListEmpty()) {
-            StopGame();
-        } else {
-            myQuestion = questionManager.getQuestion();
-            Question_p1.setText(myQuestion.getQuestion());
-            Question_p2.setText(myQuestion.getQuestion());
-        }
+        Button_p1.setEnabled(true);
+        Button_p2.setEnabled(true);
+        myQuestion = questionManager.getQuestion();
+        Question_p1.setText(myQuestion.getQuestion());
+        Question_p2.setText(myQuestion.getQuestion());
     }
 
     @SuppressLint("SetTextI18n")
@@ -108,6 +125,8 @@ public class GameActivity extends AppCompatActivity {
         int answer = myQuestion.getAnswer();
         int scoreP1 = Integer.parseInt(Score_p1.getText().toString());
         int scoreP2 = Integer.parseInt(Score_p2.getText().toString());
+        Button_p1.setEnabled(false);
+        Button_p2.setEnabled(false);
 
         if (view.getId() == R.id.button_p1) {
             if (answer == 1) {
@@ -134,7 +153,6 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         }
-        SetQuestion();
     }
 
     public void StopGame() {
@@ -158,4 +176,5 @@ public class GameActivity extends AppCompatActivity {
         setResult(RESULT_OK,returnIntent);
         finish();
     }
+
 }

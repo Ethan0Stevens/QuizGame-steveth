@@ -10,11 +10,11 @@ public class QuestionManager {
     private ArrayList<Question> questionList = new ArrayList<>();
 
     public QuestionManager() {
-        this.questionList = fillQuestionList();
+        fillQuestionList();
     }
 
-    private ArrayList<Question> fillQuestionList() {
-        questionList.add( new Question("Théo est le plus nul", 1));
+    private void fillQuestionList() {
+        questionList.add( new Question("oui ou non ?", 0));
         questionList.add( new Question("Spider Man a été créé par fortnite", 0));
         questionList.add( new Question("Le rois des pirates, ce sera moi !!!!", 1));
         questionList.add( new Question("Zoro utilise trois sabres", 1));
@@ -23,7 +23,6 @@ public class QuestionManager {
         questionList.add( new Question("Harry potter est en réalitée une femme", 0));
         questionList.add( new Question("Le mot 'rat' se prononce 'Ratatus' en latin", 0));
         questionList.add( new Question("Barbie est blonde", 1));
-        return questionList;
     }
 
     public ArrayList<Question> getQuestionList() {
@@ -43,7 +42,7 @@ public class QuestionManager {
         return questionList.isEmpty();
     }
 
-    public int getRandomIndex() {
+    private int getRandomIndex() {
         Random random = new Random();
         return random.nextInt(questionList.size());
     }

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private TextInputEditText ED_Player_1;
     private TextInputEditText ED_Player_2;
     private TextInputLayout InLayout_p2;
-
+    private LinearLayout LL_about;
     private Button BT_Start;
 
     @Override
@@ -38,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mainToolbar);
 
         TV_Player_2 = findViewById(R.id.tv_p2);
-
         ED_Player_1 = findViewById(R.id.main_p1_ed);
         ED_Player_2 = findViewById(R.id.main_p2_ed);
         InLayout_p2 = findViewById(R.id.textInputLayout_p2);
-
+        LL_about = findViewById(R.id.main_about_popup);
         BT_Start = findViewById(R.id.start_bt);
     }
 
@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about:
-                System.out.print("e");
+                LL_about.setVisibility(View.VISIBLE);
+
                 break;
             case R.id.action_settings:
 
