@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:elevation="5dp"
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+            app:popupTheme="@style/ThemeOverlay.PopupTheme" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -72,8 +72,7 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textColor="@color/colorSecondary"
-            android:textSize="@dimen/main_size_txt_tv"
-            android:focusedByDefault="true"/>
+            android:textSize="@dimen/main_size_txt_tv" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,6 +128,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <LinearLayout
         android:id="@+id/main_about_popup"
         android:layout_width="wrap_content"
@@ -153,7 +153,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="15"
-            android:text="QuizGame"
+            android:text="@string/main_about_title"
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <TextView
@@ -163,7 +163,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="15"
-            android:text="Author"
+            android:text="@string/main_about_author"
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <TextView
@@ -174,7 +174,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="15"
-            android:text="Ethan Stevens"
+            android:text="@string/main_about_author_name"
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textColor="@color/colorSecondary" />
 
@@ -185,7 +185,7 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="15"
-            android:text="Version"
+            android:text="@string/main_about_version"
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textColor="@color/colorTertiary" />
 
@@ -197,10 +197,20 @@
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="15"
-            android:text="1.1"
+            android:text="@string/main_about_version_txt"
             android:textAppearance="?attr/textAppearanceHeadline6"
             android:textColor="@color/colorSecondary" />
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchNightMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_night_mode"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_about_popup" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

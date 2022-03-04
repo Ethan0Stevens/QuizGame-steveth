@@ -1,10 +1,14 @@
 package com.steveth.quizgame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 
 import android.annotation.SuppressLint;
+import android.app.UiModeManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -13,7 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout LL_about;
     private Button BT_Start;
 
+    private SharedPreferences sharedPreferences = null;
+    private SwitchCompat NightMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         InLayout_p2 = findViewById(R.id.textInputLayout_p2);
         LL_about = findViewById(R.id.main_about_popup);
         BT_Start = findViewById(R.id.start_bt);
+        NightMode = findViewById(R.id.switchNightMode);
+        sharedPreferences = getSharedPreferences("night", 0);
     }
 
     @Override
@@ -84,6 +95,29 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+
+        boolean booleanValue = sharedPreferences.getBoolean("night_mode", true);
+        if (booleanValue) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            NightMode.setChecked(true);
+        }
+
+        NightMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode", true);
+                    editor.apply();
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("night_mode", false);
+                    editor.apply();
+                }
+            }
+        });
     }
 
     /**
@@ -111,7 +145,10 @@ public class MainActivity extends AppCompatActivity {
                 LL_about.setClickable(true);
                 break;
             case R.id.action_settings:
-
+                Intent SettingsActivity = new Intent(this, SettingsActivity.class);
+                startActivity(SettingsActivity);
+                //Animation de changement d'activité
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 break;
             default:
                 return super.onOptionsItemSelected(item);

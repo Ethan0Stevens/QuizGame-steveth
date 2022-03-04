@@ -10,7 +10,11 @@
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:textColorSecondary">@color/colorSecondary</item>
         <item name="android:textColorTertiary">@color/textColorSecondary</item>
-        <item name="android:shadowColor">@color/colorTertiaryShadow</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowRadius">5</item>
+        <item name="android:shadowColor">@color/shadow</item>
+
     </style>
 
     <!--Style pour les Input Text -->
@@ -21,6 +25,13 @@
         <item name="suffixTextColor">@color/colorPrimary</item>
         <item name="suffixTextAppearance">@color/colorPrimary</item>
         <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <!--Style pour les Input Text -->
+    <style name="ThemeOverlay.PopupTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorBackground">@color/colorBackGround</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+
     </style>
 
 </resources>

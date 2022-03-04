@@ -23,5 +23,6 @@
     <string name="questions">Questions</string>
     <string name="bt_txt_menu">Menu</string>
     <string name="bt_txt_restart">restart</string>
+    <string name="main_night_mode">Night Mode</string>
 
 </resources>

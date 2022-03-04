@@ -1,5 +1,7 @@
 package com.steveth.quizgame.Models;
 
+import android.database.Cursor;
+
 public class Question {
 
     private final String question;
@@ -13,6 +15,11 @@ public class Question {
     public Question(String question, int reponse) {
         this.question = question;
         this.answer = reponse;
+    }
+
+    public Question(Cursor cursor){
+        question = cursor.getString(cursor.getColumnIndexOrThrow("question"));
+        answer = cursor.getInt(cursor.getColumnIndexOrThrow("reponse"));
     }
 
     /**

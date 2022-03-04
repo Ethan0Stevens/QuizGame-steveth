@@ -33,7 +33,7 @@ public class GameActivity extends AppCompatActivity {
     String player1 = "";
     String player2 = "";
 
-    QuestionManager questionManager = new QuestionManager();
+    QuestionManager qManager;
     Question myQuestion;
 
     Runnable questionRunnable = null;
@@ -59,11 +59,16 @@ public class GameActivity extends AppCompatActivity {
         Question_p2 = findViewById(R.id.tv_question_p2);
         Player1_Name = findViewById(R.id.game_player1_name);
         Player2_Name = findViewById(R.id.game_player2_name);
+
+        qManager = new QuestionManager(this);
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
+
+
 
         Player1_Name.setText(player1);
         Player2_Name.setText(player2);
@@ -102,16 +107,16 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void run() {
-                if(questionManager.isListEmpty()){
+                if(qManager.isListEmpty()){
                     StopGame();
                     handler.removeCallbacks(this, 100);
                 }else{
                     SetQuestion();
-                    handler.postDelayed(this,1000);
+                    handler.postDelayed(this,2000);
                 }
             }
         };
-        handler.postDelayed(questionRunnable,100);
+        handler.postDelayed(questionRunnable,2000);
     }
 
     /**
@@ -121,7 +126,7 @@ public class GameActivity extends AppCompatActivity {
         Button_p1.setEnabled(true);
         Button_p2.setEnabled(true);
 
-        myQuestion = questionManager.getQuestion();
+        myQuestion = qManager.getQuestion();
 
         Question_p1.setText(myQuestion.getQuestion());
         Question_p2.setText(myQuestion.getQuestion());
@@ -146,14 +151,13 @@ public class GameActivity extends AppCompatActivity {
         //Modifier le score du jouer dont le bouton a été préssé
         if (view.getId() == R.id.button_p1) {
             // si la réponse est correct alors ajouter un point au score
-            // sinon enlever un point au joueur et ajouter un point a l'adversaire
+            // sinon ajouter un point a l'adversaire
             if (answer == CORRECT) {
                 if (scoreP1 < SCORE_MAX) {
                     Score_p1.setText(Integer.toString(scoreP1 + 1));
                 }
             } else {
                 if (scoreP1 > -SCORE_MAX) {
-                    Score_p1.setText(Integer.toString(scoreP1 - 1));
                     Score_p2.setText(Integer.toString(scoreP2 + 1));
                 }
             }
@@ -167,7 +171,6 @@ public class GameActivity extends AppCompatActivity {
             } else {
                 if (scoreP2 > -SCORE_MAX) {
                     Score_p1.setText(Integer.toString(scoreP1 + 1));
-                    Score_p2.setText(Integer.toString(scoreP2 - 1));
                 }
             }
         }
@@ -176,13 +179,22 @@ public class GameActivity extends AppCompatActivity {
     /**
      * Arrete de jeu
      */
+    @SuppressLint("SetTextI18n")
     public void StopGame() {
         //désactive les boutons
         Button_p1.setEnabled(false);
         Button_p2.setEnabled(false);
         //Vide les champs de questions
-        Question_p1.setText("");
-        Question_p2.setText("");
+        if (Integer.parseInt(Score_p1.getText().toString()) == Integer.parseInt(Score_p2.getText().toString())) {
+            Question_p1.setText("Egalité");
+            Question_p2.setText("Egalité");
+        } else if (Integer.parseInt(Score_p1.getText().toString()) > Integer.parseInt(Score_p2.getText().toString())) {
+            Question_p1.setText("Gagnant");
+            Question_p2.setText("Perdant");
+        } else {
+            Question_p1.setText("Perdant");
+            Question_p2.setText("Gagnant");
+        }
         //rend visible les boutons de menu et de restart
         Button_Menu.setVisibility(View.VISIBLE);
         Button_Restart.setVisibility(View.VISIBLE);

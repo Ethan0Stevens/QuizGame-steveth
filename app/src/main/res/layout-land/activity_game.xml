@@ -35,14 +35,16 @@
         android:id="@+id/score_p1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/game_margin_player_score"
+        android:maxLength="2"
         android:text="@string/score_p1"
         android:textSize="@dimen/game_score_txt_size"
-        android:maxLength="3"
-        android:layout_marginStart="@dimen/game_margin_player_score"
         app:layout_constraintBottom_toTopOf="@+id/button_p1"
         app:layout_constraintEnd_toStartOf="@+id/button_p2"
+        app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_p2" />
+        app:layout_constraintTop_toBottomOf="@+id/button_p2"
+        app:layout_constraintVertical_bias="0.485" />
 
     <TextView
         android:id="@+id/score_p2"
